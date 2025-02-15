@@ -1,34 +1,15 @@
 version: '3.8'
 
+networks:
+  brose-network:
+    driver: bridge
+    name: brose-network
+    ipam:
+      config:
+        - subnet: 172.18.0.0/16
+          gateway: 172.18.0.1
+
 services:
-  frontend:
-    build:
-      context: .
-      dockerfile: Dockerfile.frontend
-    ports:
-      - "80:80"
-    depends_on:
-      - backend
-    networks:
-      - brose-network
-
-  backend:
-    build:
-      context: .
-      dockerfile: Dockerfile.backend
-    ports:
-      - "3001:3001"
-    environment:
-      - POSTGRES_HOST=database
-      - POSTGRES_DB=brosedb
-      - POSTGRES_USER=broseuser
-      - POSTGRES_PASSWORD=brosepass
-      - PORT=3001
-    depends_on:
-      - database
-    networks:
-      - brose-network
-
   database:
     build:
       context: .
@@ -42,11 +23,49 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
-      - brose-network
+      brose-network:
+        ipv4_address: 172.18.0.2
+    container_name: brose-database
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U broseuser -d brosedb"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
-networks:
-  brose-network:
-    driver: bridge
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    environment:
+      - POSTGRES_HOST=database
+      - POSTGRES_DB=brosedb
+      - POSTGRES_USER=broseuser
+      - POSTGRES_PASSWORD=brosepass
+      - PORT=3001
+    depends_on:
+      database:
+        condition: service_healthy
+    networks:
+      brose-network:
+        ipv4_address: 172.18.0.3
+    container_name: brose-backend
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    ports:
+      - "80:80"
+    environment:
+      - REACT_APP_API_URL=/api
+    depends_on:
+      - backend
+    networks:
+      brose-network:
+        ipv4_address: 172.18.0.4
+    container_name: brose-frontend
+    restart: unless-stopped
 
 volumes:
-  postgres_data: 
+  postgres_data:

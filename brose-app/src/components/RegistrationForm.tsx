@@ -29,8 +29,8 @@ const RegistrationForm: React.FC = () => {
         console.log('Test Mode - Form data:', formData);
         alert('Test Mode: Registration successful! (No actual data was saved)');
       } else {
-        // Produkční kód pro volání backend API
-        const response = await fetch(`${API_URL}/api/users`, {
+        // Opravená konstrukce URL - už nepřidáváme /api/ na začátek
+        const response = await fetch(`${API_URL}/users`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

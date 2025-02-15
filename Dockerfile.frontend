@@ -3,11 +3,25 @@ FROM node:18 as build
 WORKDIR /app
 COPY brose-app/package*.json ./
 RUN npm install
+COPY brose-app/.env* ./
 COPY brose-app/ ./
-COPY .env.production ./
 RUN npm run build
 
 # Stage 2: Serve with Apache
 FROM httpd:2.4
+# Enable proxy modules
+RUN sed -i \
+    -e 's/^#\(LoadModule proxy_module modules\/mod_proxy.so\)/\1/' \
+    -e 's/^#\(LoadModule proxy_http_module modules\/mod_proxy_http.so\)/\1/' \
+    /usr/local/apache2/conf/httpd.conf
+
+# proxy configuration
+RUN echo '\n\
+<VirtualHost *:80>\n\
+    ProxyPreserveHost On\n\
+    ProxyPass /api http://backend:3001/api\n\
+    ProxyPassReverse /api http://backend:3001/api\n\
+</VirtualHost>' >> /usr/local/apache2/conf/httpd.conf
+
 COPY --from=build /app/build/ /usr/local/apache2/htdocs/
 EXPOSE 80 
