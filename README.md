@@ -12,11 +12,13 @@ The application is designed to be OCI-friendly, ensuring compatibility with cont
 
 # Project structure 
 
-**Frontend (Dockerfile.frontend)**
-Dvoufázový build: Node.js pro sestavení aplikace, Apache pro její obsluhu.
+Frontend (Dockerfile.frontend)
+Dvoufázový build:
+Node.js pro sestavení aplikace.
+Apache pro její obsluhu.
 Optimalizovaný produkční build React aplikace.
 Aplikace běží na portu 80.
-**Backend (Dockerfile.backend)**
+Backend (Dockerfile.backend)
 Node.js server poskytující API.
 Připraven pro komunikaci s PostgreSQL.
 Server běží na portu 3001.
@@ -24,10 +26,10 @@ Database (Dockerfile.db)
 PostgreSQL verze 15.
 Inicializační skript pro vytvoření tabulky.
 Perzistentní úložiště pomocí Docker volume.
-**Docker Compose**
+Docker Compose
 Všechny služby běží v jedné síti.
 Správné pořadí spouštění kontejnerů (využívá depends_on).
 Perzistentní data pro databázi.
 Správná konfigurace prostředí pro různé služby.
-**Aplikace**
+Aplikace
 Dynamické API URL podle prostředí (development/production).
