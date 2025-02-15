@@ -13,27 +13,28 @@ The application is designed to be OCI-friendly, ensuring compatibility with cont
 # Project structure 
 
 ### Frontend (Dockerfile.frontend)
-- Dvoufázový build:
-  - Node.js pro sestavení aplikace.
-  - Apache pro její obsluhu.
-- Optimalizovaný produkční build React aplikace.
-- Aplikace běží na portu 80.
+- Two-phase build:
+  - Node.js for building the application.
+  - Apache for serving it.
+- Optimized production build of the React application.
+- The application runs on port 80.
 
 ### Backend (Dockerfile.backend)
-- Node.js server poskytující API.
-- Připraven pro komunikaci s PostgreSQL.
-- Server běží na portu 3001.
+- Node.js server providing the API.
+- Prepared for communication with PostgreSQL.
+- The server runs on port 3001.
 
 ### Database (Dockerfile.db)
-- PostgreSQL verze 15.
-- Inicializační skript pro vytvoření tabulky.
-- Perzistentní úložiště pomocí Docker volume.
+- PostgreSQL version 15.
+- Initialization script to create the table.
+- Persistent storage using Docker volume.
 
 ### Docker Compose
-- Všechny služby běží v jedné síti.
-- Správné pořadí spouštění kontejnerů (využívá `depends_on`).
-- Perzistentní data pro databázi.
-- Správná konfigurace prostředí pro různé služby.
+- All services run in the same network.
+- Correct container startup order (uses `depends_on`).
+- Persistent data for the database.
+- Proper environment configuration for various services.
 
-### Aplikace
-- Dynamické API URL podle prostředí (development/production).
+### Application
+- Simple React app. what send data from web form in to the PSQL. Dynamic API request between frontend and backend. 
+
