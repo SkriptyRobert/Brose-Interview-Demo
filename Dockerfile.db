@@ -1,0 +1,6 @@
+FROM postgres:15
+ENV POSTGRES_DB=brosedb
+ENV POSTGRES_USER=broseuser
+ENV POSTGRES_PASSWORD=brosepass
+
+COPY init.sql /docker-entrypoint-initdb.d/ 

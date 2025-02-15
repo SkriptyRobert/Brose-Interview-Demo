@@ -1,0 +1,171 @@
+.shapes-container {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.shape {
+  position: absolute;
+  opacity: 0.1;
+  transition: all 0.3s ease;
+}
+
+.circle {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: #007bff;
+  left: 20%;
+  top: 20%;
+  animation: rotate 10s linear infinite;
+}
+
+.circle2 {
+  width: 150px;
+  height: 150px;
+  background: #0056b3;
+  right: 15%;
+  bottom: 25%;
+  animation: float 15s ease-in-out infinite;
+}
+
+.square {
+  width: 80px;
+  height: 80px;
+  background: #28a745;
+  right: 25%;
+  top: 30%;
+  animation: bounce 8s ease-in-out infinite;
+}
+
+.square2 {
+  width: 120px;
+  height: 120px;
+  background: #198754;
+  left: 35%;
+  bottom: 20%;
+  animation: rotateAndMove 12s ease-in-out infinite;
+}
+
+.triangle {
+  width: 0;
+  height: 0;
+  border-left: 50px solid transparent;
+  border-right: 50px solid transparent;
+  border-bottom: 86.6px solid #dc3545;
+  left: 40%;
+  bottom: 20%;
+  animation: float 12s ease-in-out infinite;
+}
+
+.triangle2 {
+  border-left: 30px solid transparent;
+  border-right: 30px solid transparent;
+  border-bottom: 52px solid #bb2d3b;
+  right: 45%;
+  top: 15%;
+  animation: spin 20s linear infinite;
+}
+
+.rectangle {
+  width: 160px;
+  height: 60px;
+  background: #ffc107;
+  transform: rotate(45deg);
+  left: 10%;
+  top: 40%;
+  animation: pulse 10s ease-in-out infinite;
+}
+
+.diamond {
+  width: 80px;
+  height: 80px;
+  background: #6f42c1;
+  transform: rotate(45deg);
+  right: 15%;
+  top: 60%;
+  animation: diamondFloat 18s ease-in-out infinite;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-100px);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-50px) rotate(180deg);
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: rotate(45deg) scale(1);
+    opacity: 0.1;
+  }
+  50% {
+    transform: rotate(45deg) scale(1.2);
+    opacity: 0.2;
+  }
+}
+
+@keyframes rotateAndMove {
+  0% {
+    transform: rotate(0deg) translateX(0);
+  }
+  25% {
+    transform: rotate(90deg) translateX(100px);
+  }
+  50% {
+    transform: rotate(180deg) translateX(0);
+  }
+  75% {
+    transform: rotate(270deg) translateX(-100px);
+  }
+  100% {
+    transform: rotate(360deg) translateX(0);
+  }
+}
+
+@keyframes diamondFloat {
+  0%, 100% {
+    transform: rotate(45deg) translateY(0);
+  }
+  25% {
+    transform: rotate(135deg) translateY(-50px);
+  }
+  50% {
+    transform: rotate(225deg) translateY(0);
+  }
+  75% {
+    transform: rotate(315deg) translateY(50px);
+  }
+} 

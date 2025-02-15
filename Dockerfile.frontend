@@ -1,0 +1,12 @@
+# Stage 1: Build React application
+FROM node:18 as build
+WORKDIR /app
+COPY brose-app/package*.json ./
+RUN npm install
+COPY brose-app/ ./
+RUN npm run build
+
+# Stage 2: Serve with Apache
+FROM httpd:2.4
+COPY --from=build /app/build/ /usr/local/apache2/htdocs/
+EXPOSE 80 

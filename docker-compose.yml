@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - brose-network
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    ports:
+      - "3001:3001"
+    environment:
+      - POSTGRES_HOST=database
+      - POSTGRES_DB=brosedb
+      - POSTGRES_USER=broseuser
+      - POSTGRES_PASSWORD=brosepass
+      - PORT=3001
+    depends_on:
+      - database
+    networks:
+      - brose-network
+
+  database:
+    build:
+      context: .
+      dockerfile: Dockerfile.db
+    environment:
+      POSTGRES_DB: brosedb
+      POSTGRES_USER: broseuser
+      POSTGRES_PASSWORD: brosepass
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - brose-network
+
+networks:
+  brose-network:
+    driver: bridge
+
+volumes:
+  postgres_data: 
