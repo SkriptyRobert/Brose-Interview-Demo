@@ -36,5 +36,10 @@ The application is designed to be OCI-friendly, ensuring compatibility with cont
 - Proper environment configuration for various services.
 
 ### Application
-- Simple React app. what send data from web form in to the PSQL. Dynamic API request between frontend and backend. 
+- Simple React app. what send data from web form in to the PSQL. Dynamic API request between frontend and backend.
+
+# Infrastructure diagram 
+
+![image](https://github.com/user-attachments/assets/a6a354f0-84c1-4312-aba8-33b6b26e08a2)
+
 
