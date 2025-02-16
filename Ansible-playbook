@@ -1,0 +1,72 @@
+---
+- name: Setup Docker and Deploy Application
+  hosts: my_servers
+  become: yes
+  tasks:
+    - name: Install required packages
+      dnf:
+        name:
+          - bash-completion
+          - docker-buildx.x86_64
+          - docker-cli.x86_64
+          - docker-compose.x86_64
+          - docker-compose-switch.x86_64
+          - docker-distribution.x86_64
+          - vim
+          - net-tools
+          - git
+        state: present
+        update_cache: yes
+      tags: install
+
+    - name: Open firewall for HTTP (port 80)
+      firewalld:
+        port: 80/tcp
+        permanent: yes
+        state: enabled
+      tags: firewall
+
+    - name: Reload firewalld to apply changes
+      command: firewall-cmd --reload
+      tags: firewall
+
+    - name: Enable and start Docker service
+      systemd:
+        name: docker
+        enabled: yes
+        state: started
+      tags: docker
+
+    - name: Check internet connection before cloning repository
+      command: ping -c 3 google.com
+      register: ping_result
+      ignore_errors: yes
+      tags: git
+
+    - name: Fail if no internet connection
+      fail:
+        msg: "No internet connection detected. Cannot proceed with git clone."
+      when: ping_result.rc != 0
+      tags: git
+
+    - name: Git repo clone
+      command: git clone https://github.com/SkriptyRobert/Brose-Interview-Demo.git /opt/Brose-Interview-Demo
+      args:
+        creates: "~/Brose-Interview-Demo"
+
+
+    - name: Build and start application using Docker Compose
+      command: docker-compose up -d --build
+      args:
+        chdir: /root/Brose-Interview-Demo
+      tags: deploy
+
+    - name: Display running containers
+      command: docker ps
+      register: docker_ps_output
+      tags: info
+
+    - name: Show running containers
+      debug:
+        msg: "{{ docker_ps_output.stdout_lines }}"
+      tags: info
