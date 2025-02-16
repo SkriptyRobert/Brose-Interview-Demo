@@ -2,7 +2,9 @@
 
 #Short Desription
 
-A simple web application builded in React that demonstrates containerized service deployment using Ansible, which sets up Podman, Docker, systemd, firewall, and SELinux, Haproxy. The application is hosted in a Podman container, running under a non-root user with automatic start-up on system boot. The setup includes a load balancer and multi-server configuration for High availability, with a PostgreSQL database for storing user data whats also run in container.
+A simple web application built with React, demonstrating containerized service deployment using Ansible. The setup automates the installation and configuration of Podman, Docker, systemd, firewall, SELinux, and HAProxy. The application runs inside a Docker container with automatic startup on system boot.
+
+Docker Compose is used for efficient and FAST deployment, specifying service dependencies, container hostnames & IPs, networking, and persistent volumes to retain data after restarts. The architecture includes a load balancer and a multi-server configuration for high availability, with a PostgreSQL database running in a container to store user data.
 
 #OCI Compatibility
 
